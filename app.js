@@ -127,6 +127,7 @@ const listenMessage = () => client.on('message', async msg => {
         // var hayRequest = false;
         // if(hayRequest==false && nuevaRespuesta.search("/URL")>-1){console.log("Paramos flujo para que no mande el mensaje '/URL'."); return;}//Si el trigger es desbloqueo ya no hace nada mas.
 
+        
         /**
          * Si quieres enviar botones
          */
