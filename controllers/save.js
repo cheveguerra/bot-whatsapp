@@ -8,8 +8,14 @@ const fs = require('fs')
 
 
 const saveMedia = (media) => {
+    var ext = "";
     const extensionProcess = mimeDb[media.mimetype]
-    const ext = extensionProcess.extensions[0]
+    try {
+        ext = extensionProcess.extensions[0]
+      } catch (error) {
+        ext = "";
+      }
+      
     fs.writeFile(`./media/${Date.now()}.${ext}`, media.data, { encoding: 'base64' }, function (err) {
         console.log('** Archivo Media Guardado **');
     });

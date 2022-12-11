@@ -1,4 +1,39 @@
 ## Chatbot Whatsapp (OpenSource)
+#### Actualizado Diciembre 2022
+
+Este proyecto es un fork del de [Leifer Mendez](https://github.com/leifermendez/bot-whatsapp), y tiene las siguientes modificaciones:
+
+ - Permite menus y submenus
+ - Permite expresiones regulares en las palabras predefinidas en el initial.json.
+ - Permite remplazos en el texto de los mensajes por ejemplo:
+    - __%saludo%__ para que aparezca "Buenos días, tardes o noches" dependiendo de la hora.
+    - __%dia_semana%__ para que aparezca "lunes, martes, miercoles, etc" dependiendo del día de la semana.
+    - __%msjant_XX%__ para que aparezca el mensaje xx anterior, es decir, si quieres mostrar el texto de 2 mensajes anteriores se pone %%msjant_2%.
+    - etc, etc, se pueden agregar mas remplazos en la funcion "remplazos" en el archivo "adapter\index.js".
+ - Las modificaciones están enfocadas al uso de los archivos __initial.json__ y __response.json__, yo no uso MySQL o DialogFlow, así que no sé si las modificaciones funcionen con esos modulos, en particular el __remplazo %msjant_x%__ depende de los archivos __JSON__ que se crean en el directorio "chats".
+ - Tiene agregado el parche de botones.
+
+El siguiente proyecto se realizó con fines educativos para el canal de [Youtube (Leifer Mendez)](https://www.youtube.com/channel/UCgrIGp5QAnC0J8LfNJxDRDw?sub_confirmation=1) donde aprendemos a crear y implementar un chatbot increíble usando [node.js](https://codigoencasa.com/tag/nodejs/) además le agregamos inteligencia artificial gracias al servicio de __dialogflow__.
+
+[![Video](https://i.giphy.com/media/OBDi3CXC83WkNeLEZP/giphy.webp)](https://youtu.be/5lEMCeWEJ8o) 
+
+### ATENCION 🔴
+> 💥💥 Si te aparece el Error Multi-device es porque tienes la cuenta de whatsapp afiliada al modo "BETA de Multi dispositivo" por el momento no se tiene soporte para esas personas si tu quieres hacer uso de este __BOT__ debes de salir del modo BETA y intentarlo de la manera tradicional
+
+> El core de whatsapp esta en constante actualizaciones por lo cual siempre revisa la ultima fecha de la actualizacion 
+> [VER](https://github.com/leifermendez/bot-whatsapp/commits/main)
+
+### Busco colaboradores ⭐
+Hola amigos me gusta mucho este proyecto pero por cuestiones de tiempo se me dificulta mantener las actualizaciones si alguno quieres participar en el proyecto escribeme a leifer.contacto@gmail.com
+
+#### Acceso rápido 
+> Si tienes una cuenta en __heroku__ puedes desplegar este proyecto con (1 click)
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/leifermendez/bot-whatsapp) 
+
+> Comprarme un cafe!
+
+[![Comprar](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/leifermendez)
 
 #### Actualización
 
@@ -58,6 +93,7 @@ await sendMediaVoiceNote(client, from, 'PTT-20220223-WA0000.opus')
 
 ## Instruciones
 __Descargar o Clonar repositorio__
+![](https://i.imgur.com/dSpUbFz.png)
 
 __Usas ¿Ubuntu / Linux?__
 > Asegurate de instalar los siguientes paquetes
@@ -69,9 +105,9 @@ sudo apt install -y gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups
 __Instalar dependencias (npm install)__
 > Ubicate en le directorio que descargaste y via consola o terminal ejecuta el siguiente comando
 
-```
-npm i
-``` 
+`npm install` 
+
+![](https://i.imgur.com/BJuMjGR.png)
 
 __Configurar .env__
 > Con el editor de texto crea un archivo `.env` el cual debes de guiarte del archivo `.env.example`
@@ -90,14 +126,21 @@ SQL_PASS=
 SQL_DATABASE=
 ```
 
+![](https://i.imgur.com/9poNnW0.png)
+
 __Ejecutar el script__
 > Ubicate en le directorio que descargaste y via consola o terminal ejecuta el siguiente comando
 `npm run start`
 
+![](https://i.imgur.com/eMkBkuJ.png)
+
 __Whatsapp en tu celular__
 > Ahora abre la aplicación de Whatsapp en tu dispositivo y escanea el código QR
 <img src="https://i.imgur.com/RSbPtat.png" width="500"  />
-Tambien puedes visitar la pagina http://127.0.0.1:3000/qr
+Visitar la pagina 
+`http://localhost:3000/qr` 
+
+![](https://i.imgur.com/Q3JEDlP.png)
 
 __Listo 😎__
 > Cuando sale este mensaje tu BOT está __listo__ para trabajar!
@@ -114,3 +157,11 @@ __Listo 😎__
 
 > Ahora deberías  obtener un arespuesta por parte del BOT como la siguiente, ademas de esto tambien se crea un archivo excel
 con el historial de conversación  con el número de tu cliente
+
+![](https://i.imgur.com/lrMLgR8.png)
+![](https://i.imgur.com/UYcoUSV.png)
+
+## Preguntar al BOT
+> Puedes interactuar con el bot ejemplo escribele __hola__ y el bot debe responderte!
+
+![](https://i.imgur.com/cNAS51I.png)

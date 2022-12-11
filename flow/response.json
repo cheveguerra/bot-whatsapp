@@ -11,27 +11,118 @@
         "media":null,
         "trigger":null
     },
-    "STEP_0":{
+    "menu":{
         "replyMessage":[
-            "El flujo ha finalizado \n",
-            "pero puedes ver todo el codigo de este \n",
-            "repositorio en https://github.com/leifermendez/bot-whatsapp.git"
+            "%saludo%, este es el menú, selecciona una opción: \n",
+            "Pon *1* para mensajes anteriores.\n",
+            "Pon *2* para ver remplazos.\n", 
+            "Pon *3* para esta opción.\n"
         ],
         "media":null,
         "trigger":null
     },
-    "STEP_1":{
+    "opcion1":{
         "replyMessage":[
-            "Hola! y✌️ Bienvenido a este 🤖 CHATBOT de Whatsapp, lo primero \n",
-            "decirte que mi nombre es *Leifer Mendez*😎  \n",
-            "\n Si necesitas ver más info sobre las capacitacion tecnicas ",
-            "escribe *cursos* o *info* o escribe *audio*"
+            "Seleccionaste la opción 1 \n",
+            "*Ultimo:*\n%msjant_0% \n*Penultimo:*\n%msjant_1% \n*Antepenultimo:*\n%msjant_2% \n\n",
+            "Automáticamente el flujo se regresa al *menú*, asi que puedes poner nuevamente un número del 1 al 3 sin necesidad de volver a iniciar con */menu*."
         ],
-        "media":"https://media2.giphy.com/media/VQJu0IeULuAmCwf5SL/giphy.gif",
+        "media":null,
+        "pasoRequerido":"menu",
+        "goto":"menu"
+    },
+    "opcion2":{
+        "replyMessage":[
+            "Seleccionaste la opción 2\n",
+            "Remplazamos %saludo.% con *\"%saludo%\"*\n",
+            "Remplazamos %dia_semana.% con *\"%dia_semana%\"*\n",
+            "Remplazamos %hora24.%:%minutos.% con *\"%hora24%:%minutos%\"*\n",
+            "Remplazamos %.rnd_👍🏽,🤞🏼,🤪,🤔% con '%rnd_👍🏽,🤞🏼,🤪,🤔%'\n\n",
+            "Automáticamente el flujo se regresa al *menú*, asi que puedes poner nuevamente un número del 1 al 3 sin necesidad de volver a iniciar con */menu*."
+        ],
+        "media":null,
+        "pasoRequerido":"menu",
+        "goto":"menu"
+    },
+    "opcion3":{
+        "replyMessage":[
+            "Seleccionaste la opción 3\n\n",
+            "Automáticamente el flujo se regresa al *menú*, asi que puedes poner nuevamente un número del 1 al 3 sin necesidad de volver a iniciar con */menu*."
+        ],
+        "media":null,
+        "pasoRequerido":"menu",
+        "goto":"menu"
+    },
+    "recibenombre":{
+        "replyMessage":[
+            "Gracias, ahora dame tu correo."
+        ],
+        "media":null,
+        "trigger":null,
+        "pasoRequerido":"opcion1"
+    },
+    "recibecorreo":{
+        "replyMessage":[
+            "Gracias por tu correo."
+        ],
+        "media":null,
+        "trigger":null,
+        "pasoRequerido":"recibenombre"
+    },
+    "gallina":{
+        "replyMessage":[
+            "%saludo%, por favor dame tu *número de cliente*, este lo puedes encontrar en tu ticket de compra."
+        ],
+        "media":null,
+        "trigger":null
+    },
+    "gRevisaCliente":{
+        "replyMessage":[
+            "/URL=http://localhost:8888/dbrquery?j={\"query\":\"select_revisacliente_GUNA\",\"exec\":\"ExecuteQuery\",\"params\":{\"par1\":\"XXPARAM1XX\"}}"
+        ],
+        "media":null,
+        "trigger":null,
+        "pasoRequerido":"gallina"
+    },
+    "gGuardainfo":{
+        "replyMessage":[
+            "/URL=http://localhost:8888/dbrquery?j={\"query\":\"insert_registroGallina_GUNA\",\"exec\":\"ExecuteCommand\",\"params\":{\"par1\":\"XXPARAM1XX\", \"par2\":\"XXPARAM2XX\", \"par3\":\"XXPARAM3XX\", \"par4\":\"XXPARAM4XX\"}}"
+        ],
+        "media":null,
+        "trigger":null,
+        "pasoRequerido":"gRevisaCliente"
+    },
+    "rnd":{
+        "replyMessage":[
+            "%saludo%\nHoy es %dia_semana%.\nSon las %hora24%:%minutos% hrs.\nSon las %hora12%:%minutos% %ampm%\n*Palabra random:* %rnd_arbol,burro,cabra,dinosaurio,elefante,fuego,gorila%\n*Emoji random:* %rnd_👍🏽,😁,🤣,🤔,🤦🏽‍♂️,🙄,😎%\n*Número random:* %rnd_1,2,3,4,5,6,7%\n"
+        ],
+        "media":null,
+        "trigger":null
+    },
+    "venta":{
+        "replyMessage":[
+            "%saludo%,\nPor favor escribe la *ruta* y el *almacén* de la venta que deseas borrar, separados por una diagonal.\nEjemplo: *101/6*\n"
+        ],
+        "media":null,
+        "trigger":null
+    },
+    "borramosventa":{
+        "replyMessage":[
+            "/URL=http://localhost:8888/dbrquery?j={\"query\":\"select_revisaBorrarVenta\",\"exec\":\"ExecuteQuery\",\"params\":{\"par01\":\"XXPARAM01XX\", \"par02\":\"XXPARAM02XX\", \"par03\":\"XXPARAM03XX\", \"par04\":\"XXPARAM04XX\", \"par05\":\"XXPARAM05XX\", \"par06\":\"XXPARAM06XX\", \"par07\":\"XXPARAM07XX\", \"par08\":\"XXPARAM08XX\", \"par09\":\"XXPARAM09XX\", \"par10\":\"XXPARAM10XX\"}}"
+        ],
+        "media":null,
+        "trigger":null,
+        "pasoRequerido":"venta"
+    },
+    "rnd2":{
+        "replyMessage":[
+            ""
+        ],
+        "media":null,
         "trigger":null,
         "actions":{
             "title":"¿Que te interesa ver?",
-            "message":"Recuerda todo este contenido es gratis y estaria genial que me siguas!",
+            "message":"%saludo%\nHoy es %dia_semana%.\nSon las %hora24%:%minutos% hrs.\nSon las %hora12%:%minutos% %ampm%\n*Palabra random:* %rnd_arbol,burro,cabra,dinosaurio,elefante,fuego,gorila%\n*Emoji random:* %rnd_👍🏽,😁,🤣,🤔,🤦🏽‍♂️,🙄,😎%\n*Número random:* %rnd_1,2,3,4,5,6,7%\n",
             "footer":"Gracias",
             "buttons":[
                 {"body":"Cursos"},
@@ -40,109 +131,19 @@
             ]
         }
     },
-    "STEP_2":{
+    "clientes":{
         "replyMessage":[
-            "Perfecto, te voy a pasar la lista ",
-            "de los temas que tengo y un breve video 🙂🤖 \n\n",
-            "*Angular* Basico (Pago) \n",
-            "*Angular* Basico (Gratis) \n",
-            "*Node* Basico (Gratis) \n",
-            "*NGRX* Basico (Gratis) \n",
-            "*AWS* Basico (Pago) \n\n",
-            "Escribe la palabra del tema que te interese \n"
-        ],
-        "media":"https://i.giphy.com/media/5J5gN0WUk0VToHaK2p/giphy-downsized.gif",
-        "trigger":null
-    },
-    "STEP_2_1":{
-        "replyMessage":[
-            "Si te interesa Angular tienes disponible \n",
-            "*(Gratis)* https://bit.ly/367tJ32 \n\n",
-            "*(Pago)* https://link.codigoencasa.com/PROMO-INICIAL \n\n",
-            "*(Pago)* https://link.codigoencasa.com/ANGULAR-BASICO-EDTEAM \n\n",
-            "😎😎😎"
-        ],
-        "media":"https://i.imgur.com/Q0a5UQI.jpg",
-        "trigger":null
-    },
-    "STEP_2_2":{
-        "replyMessage":[
-            "Si te interesa NODE tienes disponible \n",
-            "*(Gratis)* https://bit.ly/3od1Bl6 \n\n",
-            "Espero pronto tener más material disponible",
-            "🤖"
+            "%saludo%,\nPor favor escribe la *ruta* y el *almacén* de la ruta de la que quieres recuperar los clientes, separados por una diagonal.\nEjemplo: *101/6*\n"
         ],
         "media":null,
         "trigger":null
     },
-    "STEP_2_3":{
+    "recuperamosClientes":{
         "replyMessage":[
-            "NGRX para manejar estados en Angular \n",
-            "*(Gratis)* https://bit.ly/ngrx-desde-cero \n",
-            "A darle! 😮"
+            "/URL=http://localhost:8888/dbrquery?j={\"query\":\"proc_recuperaClientesNuevos\",\"exec\":\"ExecuteCommand\",\"params\":{\"par01\":\"XXPARAM01XX\", \"par02\":\"XXPARAM02XX\", \"par03\":\"XXPARAM03XX\"}}"
         ],
         "media":null,
-        "trigger":null
-    },
-    "STEP_2_4":{
-        "replyMessage":[
-            "Muy bien AWS esta pronto a salir pre-registrate aquí \n",
-            "*(Pre-registro)* https://link.codigoencasa.com/AWS-BASICO-INVITACION \n",
-            "😮😮"
-        ],
-        "media":null,
-        "trigger":null
-    },
-    "STEP_3":{
-        "replyMessage":[
-            "¿Ok cual curso de intereso? \n",
-            "*angular* , *node*, *ngrx*, *aws*"
-        ],
-        "media":null,
-        "trigger":null
-    },
-    "STEP_4":{
-        "replyMessage":[
-            "Gracias a ti! \n"
-        ],
-        "media":"https://media4.giphy.com/media/hur0SFIU5SH4mxNBWa/giphy.gif",
-        "trigger":null
-    },
-    "STEP_5":{
-        "replyMessage":[
-            "Muy bien te comparto el canal de Youtube \n",
-            "https://youtube.com/leifermendez \n"
-        ],
-        "media":null,
-        "trigger":null
-    },
-    "STEP_6":{
-        "replyMessage":[
-            "Perfecto, te voy a pasar la lista ",
-            "de los temas que tengo y un breve video 🙂🤖 \n\n",
-            "*Angular* Basico (Pago) \n",
-            "*Angular* Basico (Gratis) \n",
-            "*Node* Basico (Gratis) \n",
-            "*NGRX* Basico (Gratis) \n",
-            "*AWS* Basico (Pago) \n\n",
-            "Escribe la palabra del tema que te interese \n"
-        ],
-        "media":"https://i.giphy.com/media/5J5gN0WUk0VToHaK2p/giphy-downsized.gif",
-        "trigger":null
-    },
-    "STEP_7":{
-        "replyMessage":[
-            "Vente al telegram \n",
-            "https://t.me/leifermendez \n"
-        ],
-        "media":null,
-        "trigger":null
-    },
-    "STEP_8":{
-        "replyMessage":[
-            "Esto es una nota de voz \n"
-        ],
-        "media":"nota-de-voz.mp3",
-        "trigger":null
+        "trigger":null,
+        "pasoRequerido":"clientes"
     }
 }

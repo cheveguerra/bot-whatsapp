@@ -1,6 +1,6 @@
 const dialogflow = require('@google-cloud/dialogflow');
 const fs = require('fs')
-
+const { nanoid } = require('nanoid')
 /**
  * Debes de tener tu archivo con el nombre "chatbot-account.json" en la raíz del proyecto
  */
@@ -30,9 +30,9 @@ const checkFileCredentials = () => {
 
 
 // Detect intent method
-const detectIntent = async (queryText, waPhoneNumber) => {
+const detectIntent = async (queryText) => {
     let media = null;
-    const sessionId = KEEP_DIALOG_FLOW ? 1 : waPhoneNumber;
+    const sessionId = KEEP_DIALOG_FLOW ? 1 : nanoid();
     const sessionPath = sessionClient.projectAgentSessionPath(PROJECID, sessionId);
     const languageCode = process.env.LANGUAGE
     const request = {
@@ -56,7 +56,7 @@ const detectIntent = async (queryText, waPhoneNumber) => {
         const { fields } = parsePayload.payload
         media = fields.media.stringValue || null
     }
-    const customPayload = parsePayload ? parsePayload['payload'] : null
+    const customPayload = parsePayload['payload']
 
     const parseData = {
         replyMessage: queryResult.fulfillmentText,
@@ -66,8 +66,8 @@ const detectIntent = async (queryText, waPhoneNumber) => {
     return parseData
 }
 
-const getDataIa = (message = '', sessionId = '', cb = () => { }) => {
-    detectIntent(message, sessionId).then((res) => {
+const getDataIa = (message = '', cb = () => { }) => {
+    detectIntent(message).then((res) => {
         cb(res)
     })
 }
