@@ -15,11 +15,12 @@ const { generateImage, cleanNumber, checkEnvFile, createClient, isValidNumber } 
 const { connectionReady, connectionLost } = require('./controllers/connection')
 const { saveMedia } = require('./controllers/save')
 const { getMessages, responseMessages, bothResponse } = require('./controllers/flows')
-const { sendMedia, sendMessage, lastTrigger, sendMessageButton, readChat } = require('./controllers/send');
+const { sendMedia, sendMessage, lastTrigger, sendMessageButton, sendMessageList, readChat } = require('./controllers/send');
 const { remplazos, stepsInitial} = require('./adapter/index');//MOD by CHV - Agregamos para utilizar remplazos y stepsInitial
 const { isUndefined } = require('util');
 const { isSet } = require('util/types');
 const { Console } = require('console');
+const { ClientRequest } = require('http');
 const app = express();
 app.use(cors())
 app.use(express.json())
@@ -42,6 +43,11 @@ const listenMessage = () => client.on('message', async msg => {
     // console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     console.log("+++++++++++++++++++++++++++++++++++++  INICIO  +++++++++++++++++++++++++++++++++++++++");
     // console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
+    client.theMsg = msg;
+
+
+
     console.log("HORA:"+new Date().toLocaleTimeString()+" FROM:"+from+", BODY:"+body+", HASMEDIA:"+hasMedia);
     newBody = removeDiacritics(body) //MOD by CHV - Agregamos para quitar acentos
     // newBody = remplazos(newBody);
@@ -81,8 +87,36 @@ const listenMessage = () => client.on('message', async msg => {
         return
     }
 
-    var tempBody = body.toString().toLowerCase();
-
+    if(body=='/listas'){
+        const productList = new List(
+            "Here's our list of products at 50% off",
+            "View all products",
+            [
+                {
+                    title: "Products list",
+                    rows: [
+                        { id: "apple", title: "Apple" },
+                        { id: "mango", title: "Mango" },
+                        { id: "banana", title: "Banana" },
+                    ],
+                },
+            ],
+            "Please select a product"
+            );
+            console.log('##################################################################################################')
+            // console.log(from, lista)
+        // let sections = [{title:'sectionTitle',rows:[{id:'ListItem1', title: 'title1'},{id:'ListItem2', title:'title2'}]}];
+        // let lista = new List('List body','btnText',sections,'Title','footer');
+        console.log("******************     productList     ******************")
+        console.log(productList)
+        client.sendMessage(from, productList); //cliente.sendMessage recibe el arreglo SIN nombres (solo las secciones los necesitan)
+        // client.sendMessage('5215527049036@c.us', productList);
+        // client.sendMessage('5215554192439@c.us', productList);
+        // await sendMessageList(client, '5215545815654@c.us', null, lista); //sendMessageList recibe el arreglo CON nombres, como viene del response.json
+        // await sendMessageList(client, '5215527049036@c.us', null, lista);
+        // await sendMessageList(client, '5215554192439@c.us', null, lista);
+        // client.sendMessage(from, lista);
+    }
 
     /**
      * PRUEBA BOTONES NUEVOS
@@ -122,25 +156,14 @@ const listenMessage = () => client.on('message', async msg => {
         // console.log("HAY URL?? : "+nuevaRespuesta.search("/URL"));
         
         var resps = require('./flow/response.json');
-        nuevaRespuesta = remplazos(resps[step].replyMessage.join(''), msg);
+        nuevaRespuesta = remplazos(resps[step].replyMessage.join(''), client);
         var pasoRequerido = resps[step].pasoRequerido;
         // var hayRequest = false;
         // if(hayRequest==false && nuevaRespuesta.search("/URL")>-1){console.log("Paramos flujo para que no mande el mensaje '/URL'."); return;}//Si el trigger es desbloqueo ya no hace nada mas.
 
-        
         /**
          * Si quieres enviar botones
          */
-        if (response.delay){
-            //  console.log("+++++++++++++++++++  SENDING MSG WITH DELAY ("+response.delay+") +++++++++++++++++");
-            setTimeout(() => {
-                sendMessage(client, from, nuevaRespuesta, response.trigger, step);
-                // console.log(" *************   Msg with delay SENT ****************")
-            }, response.delay)
-            }
-        else{
-            await sendMessage(client, from, nuevaRespuesta, response.trigger, step);
-            }
         if (!response.delay && response.media) {
             // console.log("++++++++++++++++++++++++++++  SEND MEDIA NO DELAY  +++++++++++++++++++++++++++++++++++");
             sendMedia(client, from, response.media, response.trigger);
@@ -151,11 +174,28 @@ const listenMessage = () => client.on('message', async msg => {
                 sendMedia(client, from, response.media, response.trigger);
             }, response.delay)
         }
+        if (response.delay){
+            //  console.log("+++++++++++++++++++  SENDING MSG WITH DELAY ("+response.delay+") +++++++++++++++++");
+            setTimeout(() => {
+                sendMessage(client, from, nuevaRespuesta, response.trigger, step);
+                // console.log(" *************   Msg with delay SENT ****************")
+            }, response.delay)
+            }
+        else{
+            await sendMessage(client, from, nuevaRespuesta, response.trigger, step);
+            }
         if(response.hasOwnProperty('actions')){
             const { actions } = response;
-            // console.log("++++++++++++++++++++++++++++  SEND MESG BUTTON  +++++++++++++++++++++++++++++++++++");
-            await sendMessageButton(client, from, null, actions);
-            //  return
+            // console.log("++++++++++++++++++++++++++++  SEND MESG BUTTON/LIST  +++++++++++++++++++++++++++++++++++");
+            if(actions['sections'] === undefined){ //Botones
+                console.log("Botones")
+                await sendMessageButton(client, from, null, actions);
+            }
+            else{ //Listas
+                console.log("Listas")
+                // console.log(actions)
+                await sendMessageList(client, from, null, actions);
+            }
         }
         return
     }
@@ -163,7 +203,7 @@ const listenMessage = () => client.on('message', async msg => {
       * Regresa el mensaje enviado, con los remplazos procesados.
     */
     if(message.search('/rpt') > -1){
-        newBody = remplazos(newBody);
+        newBody = remplazos(newBody, client);
         newBody = newBody.replace("/rpt ", "");
         client.sendMessage(from, newBody);
         return
@@ -176,14 +216,31 @@ const listenMessage = () => client.on('message', async msg => {
     */
     if(message=='/spam'){
         const masivo = require('./spam.json')
+        var saludo;
+        var caritas;
         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
         async function retardo() {
             for (i=0;i<masivo.length;i++) {
                 console.log(masivo[i].numero+"@c.us");
-                client.sendMessage(masivo[i].numero+"@c.us", "Este es un mensaje de prueba para *"+masivo[i].numero+"*, HORA:*"+new Date().toLocaleTimeString()+"*");
-                var rnd = getRandomInt(1,4); // Random entre 1 y 3 segundos.
+                var rnd = getRandomInt(1,7); // Random entre 1 y 6 segundos.
+                if(rnd==1||rnd==4){saludo = "Hola ";}
+                else if(rnd==2||rnd==5){saludo = "Saludos ";}
+                else {saludo = "%saludo% ";}
+                if(rnd==1){caritas = "👨🏻‍🦰👩🏻‍🦰";}
+                else if(rnd==2){caritas = "👩🏻‍🦰👨🏻‍🦰";}
+                else if(rnd==3){caritas = "🧔🏽👧🏽";}
+                else if(rnd==4){caritas = "👧🏽🧔🏽";}
+                else if(rnd==5){caritas = "👩🏻‍🦰🧔🏽";}
+                else if(rnd==6){caritas = "🧔🏽👩🏻‍🦰";}
+                if(i % 15 === 0){console.log("********  VAN 15, HACEMOS PAUSA DE 10 SEGUNDOS ********"); await sleep(10000);} //
+                console.log(`=============   Mandamos el mensaje ${i}   ==============`);
+                var elTextoDelMensaje = caritas + " *" + saludo + "amigo tendero*  ❗❗👋🏻\n🕊️ *GUNA* trae para ti dinámicas digitales, con las que podrás participar para ganar increíbles premios. 🏆💸💰\nSigue los siguientes pasos: 😃\n*1.* 📲Sigue la página de Yo Soy Guna en Facebook en la siguiente liga  ➡️  https://www.facebook.com/yosoyguna\n*2.* 👉🏻Es importante des click en el botón Me Gusta 👍\n*3.* 🧐Sigue la dinámica que publicaremos , subiendo tu foto 📸 con los siguientes #yosoyguna #gunatenderos #gunachampions\n*4.* 🥳🎉En esta misma página , podrás ver publicados los ganadores🏅 y el tiempo en que serán elegidos. 💲 Además de tener acceso a increíbles promociones 🤑";
+                sendMedia(client, masivo[i].numero+"@c.us", "envioMasivoGuna.jpg");
+                await sleep(500);
+                client.sendMessage(masivo[i].numero+"@c.us", remplazos(elTextoDelMensaje, client));
+                // client.sendMessage(masivo[i].numero+"@c.us", "Este es un mensaje de prueba para *"+masivo[i].numero+"*, HORA:*"+new Date().toLocaleTimeString()+"*");
                 console.log(`Esperamos ${rnd} segundos...`);
                 await sleep(rnd*1000);
             }
@@ -198,7 +255,6 @@ const listenMessage = () => client.on('message', async msg => {
         return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
     }
 
- 
     //Si quieres tener un mensaje por defecto
     if (process.env.DEFAULT_MESSAGE === 'true') {
         const response = await responseMessages('DEFAULT')
@@ -208,7 +264,14 @@ const listenMessage = () => client.on('message', async msg => {
          */
         if(response.hasOwnProperty('actions')){
             const { actions } = response;
-            await sendMessageButton(client, from, null, actions);
+            if(actions['sections'] === undefined){ //Botones
+                console.log("Botones")
+                await sendMessageButton(client, from, null, actions);
+            }
+            else{ //Listas
+                console.log("Listas")
+                await sendMessageList(client, from, null, actions);
+            }
         }
          return
     }
