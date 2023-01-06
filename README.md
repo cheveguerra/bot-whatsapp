@@ -29,9 +29,14 @@ Este proyecto es un fork de la **version 1** (legacy) de [Leifer Mendez](https:/
 
          "Hola quiero info del paquete" o "Requiero mas informacion"
 
-      ponemos ```*info*``` y la regla se va a disparar porque los dos contienen "info", o si queremos que se dispare con:
+      Ponemos ```*info*``` y la regla se va a disparar porque los dos contienen "info".
+      
+      Si queremos que se dispare con:
+      
           "Quiero info del paquete numero 3" o "Me gusto el paquete de Angular"
-      ponemos ```*paquete*3*|*paquete*angular*``` y la regla se dispara porque contiene "paquete" y "3" -O- "paquete" y "angular".
+          
+      Ponemos ```*paquete*3*|*paquete*angular*``` y la regla se va a disparar porque contiene "paquete" y "3" -O- "paquete" y "angular".
+      
     ```json
     {
         "keywords": "*pak*3*|*pak*angular*|*paquete*3*|*paquete*angular*",
