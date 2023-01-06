@@ -1,4 +1,5 @@
 const { toSerialize } = require('./methods/toSerialize')
+const { flatObject } = require('../utils/flattener')
 
 class FlowClass {
     allCallbacks = []
@@ -8,10 +9,7 @@ class FlowClass {
         if (!Array.isArray(_flow)) throw new Error('Esto debe ser un ARRAY')
         this.flowRaw = _flow
 
-        this.allCallbacks = _flow
-            .map((cbIn) => cbIn.ctx.callbacks)
-            .flat(2)
-            .map((c, i) => ({ callback: c?.callback, index: i }))
+        this.allCallbacks = flatObject(_flow)
 
         const mergeToJsonSerialize = Object.keys(_flow)
             .map((indexObjectFlow) => _flow[indexObjectFlow].toJson())

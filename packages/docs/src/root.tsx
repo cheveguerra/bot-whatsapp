@@ -16,6 +16,7 @@ import { DarkThemeLauncher } from '~/components/core/DarkThemeLauncher'
 import fontStyles from '~/assets/styles/fonts.css?inline'
 import globalStyles from '~/assets/styles/global.css?inline'
 import { DocumentationCtx, GlobalStore } from './contexts'
+import { Social } from './components/core/Social'
 
 export default component$(() => {
     /**
@@ -33,6 +34,7 @@ export default component$(() => {
             title: 'Primeros pasos',
             list: [
                 { name: 'Vista rápida', link: '/docs' },
+                { name: 'Requerimientos', link: '/docs/requirements' },
                 { name: 'Instalación', link: '/docs/install' },
                 { name: 'Pruebalo', link: '/docs/example' },
             ],
@@ -57,6 +59,7 @@ export default component$(() => {
             title: 'Comunidad',
             list: [
                 { name: 'MasterClass', link: '/docs/masterclass' },
+                { name: 'Colabores', link: '/docs/contributing' },
                 { name: 'Unirme al proyecto', link: '/docs/join' },
                 { name: 'Sponsors', link: '/docs/sponsors' },
             ],
@@ -77,6 +80,7 @@ export default component$(() => {
 
                 <RouterHead />
                 <DarkThemeLauncher />
+                <Social />
             </head>
             <body class="text-gray-900 dark:text-slate-300 tracking-tight bg-white dark:bg-gray-900 antialiased">
                 <RouterOutlet />

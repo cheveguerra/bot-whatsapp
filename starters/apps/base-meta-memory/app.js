@@ -3,10 +3,9 @@ const {
     createProvider,
     createFlow,
     addKeyword,
-    addChild,
 } = require('@bot-whatsapp/bot')
 
-const TwilioProvider = require('@bot-whatsapp/provider/twilio')
+const MetaProvider = require('@bot-whatsapp/provider/meta')
 const MockAdapter = require('@bot-whatsapp/database/mock')
 
 /**
@@ -40,7 +39,7 @@ const flowZapatos = addKeyword(['1', 'zapatos', 'ZAPATOS'])
             console.log('Puedes enviar un mail, hook, etc..')
             console.log(ctx)
         },
-        [...addChild(flowZapatos2)]
+        [flowZapatos2]
     )
 
 const flowBolsos = addKeyword(['2', 'bolsos', 'BOLSOS'])
@@ -54,7 +53,7 @@ const flowBolsos = addKeyword(['2', 'bolsos', 'BOLSOS'])
             console.log('Puedes enviar un mail, hook, etc..')
             console.log(ctx)
         },
-        [...addChild(flowBolsos2)]
+        [flowBolsos2]
     )
 
 /**
@@ -72,17 +71,17 @@ const flowPrincipal = addKeyword(['hola', 'ole', 'alo'])
             console.log('Puedes enviar un mail, hook, etc..')
             console.log(ctx)
         },
-        [...addChild(flowBolsos), ...addChild(flowZapatos)]
+        [flowBolsos, flowZapatos]
     )
 
 const main = async () => {
     const adapterDB = new MockAdapter()
     const adapterFlow = createFlow([flowPrincipal])
 
-    const adapterProvider = createProvider(TwilioProvider, {
-        accountSid: 'YOUR_ACCOUNT_SID',
-        authToken: 'YOUR_ACCOUNT_TOKEN',
-        vendorNumber: '+14155238886',
+    const adapterProvider = createProvider(MetaProvider, {
+        jwtToken: 'jwtToken',
+        numberId: 'numberId',
+        verifyToken: 'verifyToken',
     })
 
     createBot({

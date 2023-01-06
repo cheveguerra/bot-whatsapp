@@ -1,24 +1,31 @@
 const { ProviderClass } = require('@bot-whatsapp/bot')
 const { Sticker } = require('wa-sticker-formatter')
 const pino = require('pino')
+const rimraf = require('rimraf')
 const mime = require('mime-types')
+const { join } = require('path')
 const { existsSync, createWriteStream } = require('fs')
 const { Console } = require('console')
 
 const {
     default: makeWASocket,
     useMultiFileAuthState,
+    Browsers,
     DisconnectReason,
 } = require('@adiwajshing/baileys')
 const {
     baileyGenerateImage,
     baileyCleanNumber,
     baileyIsValidNumber,
+    baileyDownloadMedia,
 } = require('./utils')
 
 const logger = new Console({
     stdout: createWriteStream(`${process.cwd()}/baileys.log`),
 })
+
+const NAME_DIR_SESSION = `sessions`
+const PATH_BASE = join(process.cwd(), NAME_DIR_SESSION)
 
 /**
  * ⚙️ BaileysProvider: Es una clase tipo adaptor
@@ -30,20 +37,68 @@ class BaileysProvider extends ProviderClass {
     saveCredsGlobal = null
     constructor() {
         super()
-        this.initBailey().then(() => this.initBusEvents())
+        this.initBailey().then()
     }
 
     /**
      * Iniciar todo Bailey
      */
     initBailey = async () => {
-        const { state, saveCreds } = await useMultiFileAuthState('sessions')
+        const { state, saveCreds } = await useMultiFileAuthState(
+            NAME_DIR_SESSION
+        )
         this.saveCredsGlobal = saveCreds
+
         try {
-            this.vendor = makeWASocket({
+            const sock = makeWASocket({
                 printQRInTerminal: false,
                 auth: state,
+                browser: Browsers.macOS('Desktop'),
+                syncFullHistory: false,
                 logger: pino({ level: 'error' }),
+            })
+
+            sock.ev.on('connection.update', async (update) => {
+                const { connection, lastDisconnect, qr } = update
+
+                const statusCode = lastDisconnect?.error?.output?.statusCode
+
+                /** Conexion cerrada por diferentes motivos */
+                if (connection === 'close') {
+                    if (statusCode !== DisconnectReason.loggedOut) {
+                        this.initBailey()
+                    }
+
+                    if (statusCode === DisconnectReason.loggedOut) {
+                        rimraf(PATH_BASE, (err) => {
+                            if (err) return
+                        })
+
+                        this.initBailey()
+                    }
+                }
+
+                /** Conexion abierta correctamente */
+                if (connection === 'open') {
+                    this.emit('ready', true)
+                    this.initBusEvents(sock)
+                }
+
+                /** QR Code */
+                if (qr) {
+                    this.emit('require_action', {
+                        instructions: [
+                            `Debes escanear el QR Code para iniciar session reivsa qr.png`,
+                            `Recuerda que el QR se actualiza cada minuto `,
+                            `Necesitas ayuda: https://link.codigoencasa.com/DISCORD`,
+                        ],
+                    })
+                    await baileyGenerateImage(qr)
+                }
+            })
+
+            sock.ev.on('creds.update', async () => {
+                await saveCreds()
             })
         } catch (e) {
             logger.log(e)
@@ -64,28 +119,6 @@ class BaileysProvider extends ProviderClass {
      */
     busEvents = () => [
         {
-            event: 'connection.update',
-            func: async ({ qr, connection, lastDisconnect }) => {
-                const statusCode = lastDisconnect?.error?.output?.statusCode
-
-                if (statusCode && statusCode !== DisconnectReason.loggedOut)
-                    this.initBailey()
-
-                if (qr) {
-                    this.emit('require_action', {
-                        instructions: [
-                            `Debes escanear el QR Code para iniciar session reivsa qr.png`,
-                            `Recuerda que el QR se actualiza cada minuto `,
-                            `Necesitas ayuda: https://link.codigoencasa.com/DISCORD`,
-                        ],
-                    })
-                    await baileyGenerateImage(qr)
-                }
-
-                if (connection === 'open') this.emit('ready', true)
-            },
-        },
-        {
             event: 'messages.upsert',
             func: ({ messages, type }) => {
                 if (type !== 'notify') return
@@ -95,20 +128,28 @@ class BaileysProvider extends ProviderClass {
                     body: messageCtx?.message?.conversation,
                     from: messageCtx?.key?.remoteJid,
                 }
-                if (payload.from === 'status@broadcast') {
-                    return
-                }
+                if (payload.from === 'status@broadcast') return
+
+                if (payload?.key?.fromMe) return
 
                 if (!baileyIsValidNumber(payload.from)) {
                     return
                 }
+
+                const btnCtx =
+                    payload?.message?.templateButtonReplyMessage
+                        ?.selectedDisplayText
+
+                if (btnCtx) payload.body = btnCtx
+
                 payload.from = baileyCleanNumber(payload.from, true)
                 this.emit('message', payload)
             },
         },
     ]
 
-    initBusEvents = () => {
+    initBusEvents = (_sock) => {
+        this.vendor = _sock
         const listEvents = this.busEvents()
 
         for (const { event, func } of listEvents) {
@@ -124,8 +165,9 @@ class BaileysProvider extends ProviderClass {
      */
 
     sendMedia = async (number, imageUrl, text) => {
-        await this.vendor.sendMessage(number, {
-            image: { url: imageUrl },
+        const fileDownloaded = await baileyDownloadMedia(imageUrl)
+        return this.vendor.sendMessage(number, {
+            image: { url: fileDownloaded },
             text,
         })
     }
@@ -186,17 +228,21 @@ class BaileysProvider extends ProviderClass {
      * @example await sendMessage("+XXXXXXXXXXX", "Your Text", "Your Footer", [{"buttonId": "id", "buttonText": {"displayText": "Button"}, "type": 1}])
      */
 
-    sendButtons = async (number, text, footer, buttons) => {
+    sendButtons = async (number, text, buttons) => {
         const numberClean = number.replace('+', '')
+        const templateButtons = buttons.map((btn, i) => ({
+            index: `${i}`,
+            quickReplyButton: {
+                displayText: btn.body,
+                id: `id-btn-${i}`,
+            },
+        }))
 
-        const buttonMessage = {
-            text: text,
-            footer: footer,
-            buttons: buttons,
-            headerType: 1,
-        }
-
-        await this.vendor.sendMessage(`${numberClean}@c.us`, buttonMessage)
+        return this.vendor.sendMessage(`${numberClean}@c.us`, {
+            text,
+            footer: '',
+            templateButtons: templateButtons,
+        })
     }
 
     /**
@@ -209,8 +255,8 @@ class BaileysProvider extends ProviderClass {
     sendMessage = async (numberIn, message, { options }) => {
         const number = baileyCleanNumber(numberIn)
 
-        // if (options?.buttons?.length)
-        //     return this.sendButtons(number, message, options.buttons)
+        if (options?.buttons?.length)
+            return this.sendButtons(number, message, options.buttons)
         if (options?.media)
             return this.sendMedia(number, options.media, message)
         return this.sendText(number, message)

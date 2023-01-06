@@ -1,4 +1,4 @@
-name: BotWhatsapp Releases(DEV)
+name: 🚀 (DEV) Liberando versiones
 
 on:
     push:
@@ -13,10 +13,6 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v3
-              with:
-                  ref: ${{ github.head_ref }}
-                  persist-credentials: false
-                  fetch-depth: 0
 
             - name: Setup Node
               uses: actions/setup-node@v3
@@ -49,8 +45,7 @@ jobs:
               run: yarn node ./scripts/release.js --name=provider --version=  --token="${{ secrets.NPM_TOKEN }}"
 
             - name: Commit Versioning & Push changes
-              uses: actions-js/push@master
+              uses: stefanzweifel/git-auto-commit-action@v4
               with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  message: 'ci(version): :zap: automatic - "${date}" updated versions every packages'
-                  branch: 'dev'
+                  commit_message: 'ci(version): :zap: automatic - "${date}" updated versions every packages'
+                  branch: dev
