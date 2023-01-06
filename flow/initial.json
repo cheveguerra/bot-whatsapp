@@ -52,6 +52,10 @@
         "key": "botones"
     },
     {
+        "keywords": ["6"],
+        "key": "botonespaq3"
+    },
+    {
         "keywords": ["cursos"],
         "key": "cursos"
     },
@@ -74,5 +78,9 @@
     {
         "keywords": ["platano"],
         "key": "platano"
+    },
+    {
+        "keywords": "*pak*3*|*pak*angular*|*paquete*3*|*paquete*angular*",
+        "key": "paq3"
     }
 ]
