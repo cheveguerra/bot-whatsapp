@@ -27,14 +27,14 @@ Este proyecto es un fork de la **version 1** (legacy) de [Leifer Mendez](https:/
       y en él usamos "*" para significar cualquier texto y "|" para significar "OR", esto nos permite ser mas flexibles
       con los "keywords", por ejemplo, si queremos que el mensaje pueda decir:
 
-           ```"Hola quiero info del paquete" o "Requiero mas informacion"```
+           "Hola quiero info del paquete" o "Requiero mas informacion"
 
       Ponemos ```*info*``` y la regla se va a disparar porque los dos contienen "info".
       
       Si queremos que se dispare con:
 
 
-           ```"Quiero info del paquete numero 3" o "Me gusto el paquete de Angular"```
+           "Quiero info del paquete numero 3" o "Me gusto el paquete de Angular"
       
           
       Ponemos ```*paquete*3*|*paquete*angular*``` y la regla se va a disparar porque contiene "paquete" y "3" -O- "paquete" y "angular".
