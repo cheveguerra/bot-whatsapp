@@ -32,8 +32,10 @@ Este proyecto es un fork de la **version 1** (legacy) de [Leifer Mendez](https:/
       Ponemos ```*info*``` y la regla se va a disparar porque los dos contienen "info".
       
       Si queremos que se dispare con:
+
+
+         "Quiero info del paquete numero 3" o "Me gusto el paquete de Angular"
       
-          "Quiero info del paquete numero 3" o "Me gusto el paquete de Angular"
           
       Ponemos ```*paquete*3*|*paquete*angular*``` y la regla se va a disparar porque contiene "paquete" y "3" -O- "paquete" y "angular".
       
