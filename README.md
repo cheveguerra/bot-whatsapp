@@ -23,7 +23,7 @@ Este proyecto es un fork del de [Leifer Mendez](https://github.com/leifermendez/
     }
     ```
  - Permite expresiones regulares en las palabras predefinidas en el initial.json.
-    - Si queremos usar RegExp, en los "keywords" de **inital.json**, en lugar de un arreglo, debemos usar un string (quitamos los [])
+    - Si queremos usar RegExp, en los "keywords" de **inital.json**, en lugar de un arreglo, debemos usar un string ( quitamos los [] )
       y en él usamos "*" para significar cualquier texto y "|" para significar "OR", esto nos permite ser mas flexibles
       con los "keywords", por ejemplo, si queremos que el mensaje pueda decir:
 
