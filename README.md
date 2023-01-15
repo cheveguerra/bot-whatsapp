@@ -135,13 +135,6 @@ Entiende más a fondo sus funcionalidades explicadas en nuestra documentación.
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/ulisesvina">
-            <img src="https://avatars.githubusercontent.com/u/20508563?v=4" width="50;" alt="ulisesvina"/>
-            <br />
-            <sub><b>Ulises Viña</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/rrruuuyyy">
             <img src="https://avatars.githubusercontent.com/u/33061671?v=4" width="50;" alt="rrruuuyyy"/>
             <br />
