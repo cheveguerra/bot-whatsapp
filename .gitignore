@@ -12,7 +12,6 @@ media/*
 mediaSend/*
 !mediaSend/.gitkeep
 !mediaSend/nota-de-voz.mp3
-.env
 .wwebjs_auth
 /session
 /session/*
