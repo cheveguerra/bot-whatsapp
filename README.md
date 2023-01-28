@@ -49,10 +49,10 @@ Entiende más a fondo sus funcionalidades explicadas en nuestra documentación.
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/aurik3">
-            <img src="https://avatars.githubusercontent.com/u/37228512?v=4" width="50;" alt="aurik3"/>
+        <a href="https://github.com/leifermendezfroged">
+            <img src="https://avatars.githubusercontent.com/u/97020486?v=4" width="50;" alt="leifermendezfroged"/>
             <br />
-            <sub><b>Null</b></sub>
+            <sub><b>Leifer Mendez</b></sub>
         </a>
     </td>
     <td align="center">
@@ -63,27 +63,20 @@ Entiende más a fondo sus funcionalidades explicadas en nuestra documentación.
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/leifermendezfroged">
-            <img src="https://avatars.githubusercontent.com/u/97020486?v=4" width="50;" alt="leifermendezfroged"/>
-            <br />
-            <sub><b>Leifer Mendez</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/danielcasta0398">
             <img src="https://avatars.githubusercontent.com/u/98791147?v=4" width="50;" alt="danielcasta0398"/>
             <br />
             <sub><b>Juan Daniel Castaño</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/marianarolfo">
             <img src="https://avatars.githubusercontent.com/u/68322254?v=4" width="50;" alt="marianarolfo"/>
             <br />
             <sub><b>Null</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/HKong31">
             <img src="https://avatars.githubusercontent.com/u/113340082?v=4" width="50;" alt="HKong31"/>
@@ -113,13 +106,34 @@ Entiende más a fondo sus funcionalidades explicadas en nuestra documentación.
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/devrlbusiness">
+            <img src="https://avatars.githubusercontent.com/u/66280283?v=4" width="50;" alt="devrlbusiness"/>
+            <br />
+            <sub><b>Developer RL Business</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/Gregoriotecnico">
+            <img src="https://avatars.githubusercontent.com/u/118696506?v=4" width="50;" alt="Gregoriotecnico"/>
+            <br />
+            <sub><b>Null</b></sub>
+        </a>
+    </td></tr>
+<tr>
+    <td align="center">
+        <a href="https://github.com/aurik3">
+            <img src="https://avatars.githubusercontent.com/u/37228512?v=4" width="50;" alt="aurik3"/>
+            <br />
+            <sub><b>Null</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/jlferrete">
             <img src="https://avatars.githubusercontent.com/u/36698913?v=4" width="50;" alt="jlferrete"/>
             <br />
             <sub><b>Jose Luis Ferrete Olarte</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/6rak0">
             <img src="https://avatars.githubusercontent.com/u/12260031?v=4" width="50;" alt="6rak0"/>
@@ -135,12 +149,20 @@ Entiende más a fondo sus funcionalidades explicadas en nuestra documentación.
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/lisandroprada">
+            <img src="https://avatars.githubusercontent.com/u/7232326?v=4" width="50;" alt="lisandroprada"/>
+            <br />
+            <sub><b>Null</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/rrruuuyyy">
             <img src="https://avatars.githubusercontent.com/u/33061671?v=4" width="50;" alt="rrruuuyyy"/>
             <br />
             <sub><b>Rodrigo Mendoza Cabrera</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/yond1994">
             <img src="https://avatars.githubusercontent.com/u/47557263?v=4" width="50;" alt="yond1994"/>
