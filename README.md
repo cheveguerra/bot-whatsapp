@@ -48,10 +48,10 @@ Entiende más a fondo sus funcionalidades explicadas en nuestra documentación.
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/aurik3">
-            <img src="https://avatars.githubusercontent.com/u/37228512?v=4" width="50;" alt="aurik3"/>
+        <a href="https://github.com/leifermendezfroged">
+            <img src="https://avatars.githubusercontent.com/u/97020486?v=4" width="50;" alt="leifermendezfroged"/>
             <br />
-            <sub><b>Null</b></sub>
+            <sub><b>Leifer Mendez</b></sub>
         </a>
     </td>
     <td align="center">
@@ -62,17 +62,17 @@ Entiende más a fondo sus funcionalidades explicadas en nuestra documentación.
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/leifermendezfroged">
-            <img src="https://avatars.githubusercontent.com/u/97020486?v=4" width="50;" alt="leifermendezfroged"/>
-            <br />
-            <sub><b>Leifer Mendez</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/danielcasta0398">
             <img src="https://avatars.githubusercontent.com/u/98791147?v=4" width="50;" alt="danielcasta0398"/>
             <br />
             <sub><b>Juan Daniel Castaño</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/aurik3">
+            <img src="https://avatars.githubusercontent.com/u/37228512?v=4" width="50;" alt="aurik3"/>
+            <br />
+            <sub><b>Null</b></sub>
         </a>
     </td></tr>
 <tr>
@@ -148,20 +148,27 @@ Entiende más a fondo sus funcionalidades explicadas en nuestra documentación.
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/Jhonarias13">
+            <img src="https://avatars.githubusercontent.com/u/19483021?v=4" width="50;" alt="Jhonarias13"/>
+            <br />
+            <sub><b>Jhon Freiman Arias</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/tonyvazgar">
             <img src="https://avatars.githubusercontent.com/u/21047090?v=4" width="50;" alt="tonyvazgar"/>
             <br />
             <sub><b>Luis Antonio Vázquez García</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/rrruuuyyy">
             <img src="https://avatars.githubusercontent.com/u/33061671?v=4" width="50;" alt="rrruuuyyy"/>
             <br />
             <sub><b>Rodrigo Mendoza Cabrera</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/yond1994">
             <img src="https://avatars.githubusercontent.com/u/47557263?v=4" width="50;" alt="yond1994"/>
