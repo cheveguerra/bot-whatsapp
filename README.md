@@ -163,6 +163,13 @@ Entiende más a fondo sus funcionalidades explicadas en nuestra documentación.
     </td></tr>
 <tr>
     <td align="center">
+        <a href="https://github.com/Zamphiropolos">
+            <img src="https://avatars.githubusercontent.com/u/40876040?v=4" width="50;" alt="Zamphiropolos"/>
+            <br />
+            <sub><b>Zamphi</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/rrruuuyyy">
             <img src="https://avatars.githubusercontent.com/u/33061671?v=4" width="50;" alt="rrruuuyyy"/>
             <br />
